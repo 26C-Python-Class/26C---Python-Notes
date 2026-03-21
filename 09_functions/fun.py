@@ -28,7 +28,7 @@ def square(n):
     return n * n
 print(square(5))
 
-# n Python, *args and **kwargs allow a function to accept a variable number of arguments. 
+# In Python, *args and **kwargs allow a function to accept a variable number of arguments. 
 # This is useful when you don't know ahead of time how many inputs a user will provide.
 # 1. *args (Non-Keyword Arguments)
 # The * unpacks an sequence into a tuple. Use this when you want to pass a list of items 
