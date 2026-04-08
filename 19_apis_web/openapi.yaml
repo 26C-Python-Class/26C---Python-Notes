@@ -1,0 +1,99 @@
+openapi: 3.0.0
+info:
+  title: Task Manager API
+  version: 1.0.0
+  description: A complete CRUD API with full HTTP Status Code support.
+
+tags:
+  - name: Tasks
+    description: Operations related to task management
+
+paths:
+  /api/tasks:
+    get:
+      tags: [Tasks]
+      summary: List all tasks
+      responses:
+        '200':
+          description: Successfully retrieved the list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      tags: [Tasks]
+      summary: Create a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title:
+                  type: string
+      responses:
+        '201':
+          description: Created - Task was successfully added.
+        '400':
+          description: Bad Request - Missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/tasks/{task_id}:
+    get:
+      tags: [Tasks]
+      parameters:
+        - name: task_id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK - Task found.
+        '404':
+          description: Not Found - The ID does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags: [Tasks]
+      parameters:
+        - name: task_id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '204':
+          description: No Content - Successfully deleted.
+        '404':
+          description: Not Found - Nothing to delete.
+        '403':
+          description: Forbidden. You are not allowed to delete this resource
+
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        done:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
